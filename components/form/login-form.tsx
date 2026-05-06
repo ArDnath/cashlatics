@@ -1,23 +1,19 @@
-"use client"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+"use client";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
-import { useState } from "react"
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
+} from "@/components/ui/card";
+import { Field, FieldDescription, FieldGroup } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormField,
@@ -25,26 +21,25 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Loader2, GalleryVerticalEnd, Apple } from "lucide-react"
-import { useRouter } from "next/navigation"
-import { signIn } from "@/server/user"
-import { toast } from "sonner"
-import { authClient } from "@/lib/auth-client"
+} from "@/components/ui/form";
+import { Loader2, GalleryVerticalEnd, Apple } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { signIn } from "@/server/user";
+import { toast } from "sonner";
+import { authClient } from "@/lib/auth-client";
 
 const formSchema = z.object({
   email: z.email(),
   password: z.string().min(8, "Password must be at least 8 characters"),
-})
+});
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-
-  const [loading, setLoading] = useState(false)
-  const [oauthLoading, setOAuthLoading] = useState<string | null>(null)
-  const router = useRouter()
+  const [loading, setLoading] = useState(false);
+  const [oauthLoading, setOAuthLoading] = useState<string | null>(null);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -52,10 +47,10 @@ export function LoginForm({
       email: "",
       password: "",
     },
-  })
+  });
 
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-    setLoading(true)
+    setLoading(true);
 
     const { success, message } = await signIn(values.email, values.password);
 
@@ -69,14 +64,13 @@ export function LoginForm({
         channel.close();
       }
 
-      router.push("/dashboard")
-    }
-    else {
+      router.push("/dashboard");
+    } else {
       toast.error(message as string);
     }
 
     setLoading(false);
-  }
+  };
 
   const handleOAuthSignIn = async (provider: "google" | "apple") => {
     try {
@@ -88,7 +82,9 @@ export function LoginForm({
       });
 
       if (response) {
-        toast.success(`Signed in with ${provider === "google" ? "Google" : "Apple"}`);
+        toast.success(
+          `Signed in with ${provider === "google" ? "Google" : "Apple"}`,
+        );
 
         // Broadcast auth change to navbar
         if (typeof window !== "undefined") {
@@ -100,13 +96,14 @@ export function LoginForm({
         router.push("/dashboard");
       }
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "OAuth sign-in failed";
+      const errorMessage =
+        error instanceof Error ? error.message : "OAuth sign-in failed";
       toast.error(errorMessage);
       console.error(`${provider} OAuth error:`, error);
     } finally {
       setOAuthLoading(null);
     }
-  }
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -116,14 +113,17 @@ export function LoginForm({
             <GalleryVerticalEnd className="size-6" />
             <CardTitle className="text-xl">Welcome Back</CardTitle>
             <CardDescription>
-              Don&apos;t have an account? <a href="/sign-up">Sign up</a>
+              Don&apos;t have an account? <a href="/signup">Sign up</a>
             </CardDescription>
           </div>
         </CardHeader>
 
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+            <form
+              onSubmit={form.handleSubmit(handleSubmit)}
+              className="space-y-6"
+            >
               <FieldGroup>
                 <Field>
                   <FormField
@@ -149,7 +149,11 @@ export function LoginForm({
                       <FormItem>
                         <FormLabel>Password</FormLabel>
                         <FormControl>
-                          <Input type="password" placeholder="********" {...field} />
+                          <Input
+                            type="password"
+                            placeholder="********"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -159,7 +163,11 @@ export function LoginForm({
 
                 <Field>
                   <Button disabled={loading} type="submit" className="w-full">
-                    {loading ? <Loader2 className="size-4 animate-spin" /> : "Login"}
+                    {loading ? (
+                      <Loader2 className="size-4 animate-spin" />
+                    ) : (
+                      "Login"
+                    )}
                   </Button>
                 </Field>
               </FieldGroup>
@@ -231,5 +239,5 @@ export function LoginForm({
         and <a href="#">Privacy Policy</a>.
       </FieldDescription>
     </div>
-  )
+  );
 }

@@ -8,7 +8,7 @@ import { user } from "@/db/schema";
 
 export const getCurrentUser = async () => {
   const session = await auth.api.getSession({
-    headers: await headers()
+    headers: await headers(),
   });
 
   if (!session || !session.user) {
@@ -16,7 +16,7 @@ export const getCurrentUser = async () => {
   }
 
   const currentUser = await db.query.user.findFirst({
-    where: eq(user.id, session.user.id)
+    where: eq(user.id, session.user.id),
   });
 
   if (!currentUser) {
@@ -35,50 +35,43 @@ export const signIn = async (email: string, password: string) => {
       body: {
         email,
         password,
-      }
+      },
     });
 
     return {
       success: true,
-      message: "Sign in successful"
-    }
-
+      message: "Sign in successful",
+    };
   } catch (error) {
-
     const e = error as Error;
 
     return {
       success: false,
       message: e.message || "An unknow error occurred.",
-    }
-
+    };
   }
-}
+};
 
-export const signUp = async (
-  email: string,
-  password: string,
-  name: string
-) => {
+export const signUp = async (email: string, password: string, name: string) => {
   try {
     await auth.api.signUpEmail({
       body: {
         email,
         password,
-        name
-      }
-    })
+        name,
+      },
+    });
 
     return {
       success: true,
-      message: "Signed up successfully"
-    }
+      message: "Signed up successfully",
+    };
   } catch (error) {
     const e = error as Error;
 
     return {
       success: false,
       message: e.message || "An unknown error occurred.",
-    }
+    };
   }
-}
+};
