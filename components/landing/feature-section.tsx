@@ -7,7 +7,9 @@ import { PieChart, Zap, TrendingUp, Shield, Users, Globe } from "lucide-react";
 // Types
 type Feature = {
   id: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement> & { size?: number | string }>;
+  icon: React.ComponentType<
+    React.SVGProps<SVGSVGElement> & { size?: number | string }
+  >;
   title: string;
   desc: string;
   stat: string;
@@ -223,7 +225,7 @@ const FeatureCard = ({
 
 export default function FeaturesSection() {
   return (
-    <section className="py-24 px-6 bg-stone-50">
+    <section className="py-24 px-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-20 space-y-4">

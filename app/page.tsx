@@ -1,5 +1,6 @@
 import HeroSection from "@/components/hero";
 import FeaturesSection from "@/components/landing/feature-section";
+import HowItWorksSection from "@/components/landing/how-it-works";
 import SocialProof from "@/components/landing/social-proof";
 
 export default function Home() {
@@ -27,7 +28,7 @@ export default function Home() {
         <FeaturesSection />
         {/* You can add more sections here (e.g., <Features />, <Pricing />)
             and the lines will naturally continue behind them. */}
-        <div className="h-screen" /> {/* Spacer to test scrolling effect */}
+        <HowItWorksSection /> {/* Spacer to test scrolling effect */}
       </div>
     </main>
   );
