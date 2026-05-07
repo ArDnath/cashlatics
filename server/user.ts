@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { db } from "@/db/index";
-import { eq, inArray, not } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { user } from "@/db/schema";
 
 export const getCurrentUser = async () => {
@@ -12,7 +12,7 @@ export const getCurrentUser = async () => {
   });
 
   if (!session || !session.user) {
-    redirect("/sign-in");
+    redirect("/login");
   }
 
   const currentUser = await db.query.user.findFirst({
@@ -20,7 +20,7 @@ export const getCurrentUser = async () => {
   });
 
   if (!currentUser) {
-    redirect("/sign-in");
+    redirect("/login");
   }
 
   return {

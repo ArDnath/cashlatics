@@ -1,45 +1,17 @@
-"use client";
-
-import { useSessionState } from "@/hooks/useSessionState";
 import Container from "@/components/layout/container";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { Loader2 } from "lucide-react";
+import { getCurrentUser } from "@/server/user";
 
-export default function DashboardPage() {
-  const { session, loading } = useSessionState();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!loading && !session) {
-      router.push("/sign-in");
-    }
-  }, [session, loading, router]);
-
-  if (loading) {
-    return (
-      <Container className="flex flex-col justify-center items-center min-h-screen">
-        <Loader2 className="size-8 animate-spin" />
-        <p className="mt-4">Loading dashboard...</p>
-      </Container>
-    );
-  }
-
-  if (!session) {
-    return (
-      <Container className="flex flex-col justify-center items-center min-h-screen">
-        <p>Redirecting to login...</p>
-      </Container>
-    );
-  }
+export default async function DashboardPage() {
+  // This server function will redirect to /login if not authenticated
+  const { currentUser } = await getCurrentUser();
 
   return (
     <Container className="py-8">
       <div className="space-y-8">
         <div>
-          <h1 className="text-4xl font-bold">Welcome, {session.user?.name}!</h1>
+          <h1 className="text-4xl font-bold">Welcome, {currentUser?.name}!</h1>
           <p className="text-muted-foreground mt-2">
-            Email: {session.user?.email}
+            Email: {currentUser?.email}
           </p>
         </div>
 

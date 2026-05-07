@@ -12,15 +12,15 @@ function Navbar() {
 
   if (loading) {
     return (
-      <div className="h-16 flex justify-between items-center px-8 border-b-2">
+      <div className="h-16 flex justify-between items-center px-8 border-b-2 border-stone-700">
         <Link href="/">Cashlatics</Link>
-        <button></button>
+        <div className="h-10 w-20 bg-stone-100 animate-pulse rounded-sm border border-stone-200" />
       </div>
     );
   }
 
   return (
-    <div className="h-16 flex justify-between items-center px-8 border-b-2">
+    <div className="h-16 flex justify-between items-center px-8 border-b-2 border-stone-600 bg-stone-50/60 backdrop-blur-md sticky top-0 z-50 transition-all">
       <Link href="/">Cashlatics</Link>
       {session ? (
         <Logout />
