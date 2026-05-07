@@ -39,35 +39,35 @@ const HeroSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* LEFT COLUMN: 7/12 width for better text spacing */}
           <div className="lg:col-span-7 flex flex-col">
-            <div className="inline-flex items-center gap-2 border border-black/30 rounded-sm px-3 py-1 text-[10px] tracking-widest uppercase mb-10 w-fit shadow-md">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
+            <div className="inline-flex items-center gap-2 border border-stone-950  rounded-sm px-3 py-1 text-[10px] tracking-widest uppercase mb-10 w-fit shadow-md">
+              <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
               Intelligence Report v1.0
             </div>
 
             {/* Headline Section - Improved Line Heights */}
-            <h1 className="font-bold text-stone-800 text-[clamp(60px,8vw,120px)] leading-[0.85] uppercase tracking-tighter">
+            <h1 className="font-(family-name:--font-geologica) font-[850]  text-stone-800 text-[clamp(60px,8vw,120px)] leading-[0.85] uppercase tracking-tighter">
               Master <br /> Your
             </h1>
 
             {/* The Italic contrast font */}
-            <span className="font-inter text-[clamp(40px,5vw,80px)] leading-none text-black/40 block mt-2">
+            <span className="font-(family-name:--font-geologica) text-[clamp(40px,5vw,80px)] leading-none text-black/40 block mt-2">
               Financial Future
             </span>
 
             <div className="w-24 h-px bg-black my-10" />
 
             <p className="text-[13px] leading-relaxed text-black/60 max-w-md mb-10 font-medium">
-              A high-precision interface for modern wealth management. Sync your
-              accounts, track assets in real-time, and leverage AI to predict
-              your next 12 months of liquidity.
+              The high-precision interface for your personal economy. Sync
+              assets, automate tracking, and use AI to predict your liquidity
+              for the year ahead
             </p>
 
             <div className="flex items-center gap-8 mb-16">
               <Link
                 href="/dashboard"
-                className="bg-black text-white px-8 py-4 text-[11px] tracking-widest uppercase hover:bg-black/80 transition-all flex items-center gap-3"
+                className="bg-stone-900 text-white px-8 py-4 text-[11px] tracking-widest uppercase hover:bg-black/80 transition-all flex items-center gap-3"
               >
-                Open Account
+                Start Now
                 <ArrowUpRight size={16} />
               </Link>
               <button className="text-[11px] tracking-widest uppercase border-b border-black pb-1 flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
@@ -101,8 +101,8 @@ const HeroSection = () => {
               >
                 <Image
                   src="/money-gif-4.gif" // Ensure this path is correct in your public folder
-                  width={800}
-                  height={600}
+                  width={1000}
+                  height={800}
                   alt="Interface"
                   className="w-full grayscale hover:grayscale-0 transition-all duration-700"
                 />

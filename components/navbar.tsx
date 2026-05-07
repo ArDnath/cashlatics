@@ -12,7 +12,7 @@ function Navbar() {
 
   if (loading) {
     return (
-      <div className="h-16 flex justify-between items-center px-8 border-b-2 border-stone-700">
+      <div className="h-16 flex justify-between items-center px-8 border-b-2 border-stone-700 sticky top-0 z-50 ">
         <Link href="/">Cashlatics</Link>
         <div className="h-10 w-20 bg-stone-100 animate-pulse rounded-sm border border-stone-200" />
       </div>
