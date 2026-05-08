@@ -1,8 +1,11 @@
-import HeroSection from "@/components/hero";
+import HeroSection from "@/components/landing/hero";
 import FeaturesSection from "@/components/landing/feature-section";
 import HowItWorksSection from "@/components/landing/how-it-works";
 import SocialProof from "@/components/landing/social-proof";
 import Footer from "@/components/landing/Footer";
+import TestimonialsSection from "@/components/landing/testimonial";
+import FaqSection from "@/components/landing/faq-section";
+import CtaSection from "@/components/landing/cta-section";
 
 export default function Home() {
   return (
@@ -29,7 +32,10 @@ export default function Home() {
         <FeaturesSection />
         {/* You can add more sections here (e.g., <Features />, <Pricing />)
             and the lines will naturally continue behind them. */}
+        <TestimonialsSection />
         <HowItWorksSection />
+        <FaqSection />
+        <CtaSection />
         <Footer /> {/* Spacer to test scrolling effect */}
       </div>
     </main>

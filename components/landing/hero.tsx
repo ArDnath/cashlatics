@@ -65,10 +65,13 @@ const HeroSection = () => {
             <div className="flex items-center gap-8 mb-16">
               <Link
                 href="/dashboard"
-                className="bg-stone-900 text-white px-8 py-4 text-[11px] tracking-widest uppercase hover:bg-black/80 transition-all flex items-center gap-3"
+                className="relative bg-stone-900 border- text-white px-1 py-1 text-[11px] tracking-widest rounded-md uppercase hover:bg-stone-800  flex items-center gap-3 shadow-[-10px_6.5px_0px_0_rgba(0,0,0,0.3)] hover:shadow-[0_0_0_0_rgba(0,0,0,0)] transition-shadow "
               >
-                Start Now
-                <ArrowUpRight size={16} />
+                <div className="flex gap-2 border-stone-200 border-2 px-4 py-3 text-xl">
+                  {" "}
+                  Start Now
+                  <ArrowUpRight size={16} />
+                </div>
               </Link>
               <button className="text-[11px] tracking-widest uppercase border-b border-black pb-1 flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
                 Live Demo <ArrowRight size={14} />

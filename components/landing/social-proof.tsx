@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 
 interface Brand {
   id: string;
@@ -18,20 +19,17 @@ const brands: Brand[] = [
 ];
 
 const TICKER_ITEMS = [
-  "LIQUIDITY FORECASTING",
-  "FISCAL QUARTERLY AUDIT",
-  "AI_DRIVEN_RETENTION",
-  "MULTI_BANK_AGGREGATION",
-  "REAL_TIME_P&L",
-  "TAX_LOSS_HARVESTING",
+  "AI_SPENDING_INSIGHTS",
+  "PREDICTIVE_BUDGETING",
+  "WEALTH_FORECASTING",
+  "INTELLIGENT_ALERTS",
+  "AI_TAX_OPTIMIZATION",
+  "BEHAVIORAL_GUIDANCE",
 ];
 
-// Resolves cascading render warning by using a layout effect or standard check
 function useMounted() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
-    // requestAnimationFrame ensures the update happens after the browser has painted,
-    // satisfying the "cascading render" check by moving it out of the sync execution flow.
     const frame = requestAnimationFrame(() => setMounted(true));
     return () => cancelAnimationFrame(frame);
   }, []);
@@ -67,15 +65,15 @@ const BrandCard = ({ brand, index }: { brand: Brand; index: number }) => {
   };
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
       className="group relative cursor-pointer select-none"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onClick={handleClick}
-      style={{
-        animationDelay: `${index * 80}ms`,
-        animation: "fadeSlideUp 0.5s ease both",
-      }}
     >
       <div
         className="absolute inset-0 -m-2 rounded-sm bg-stone-100 transition-all duration-200"
@@ -140,7 +138,7 @@ const BrandCard = ({ brand, index }: { brand: Brand; index: number }) => {
           transformOrigin: "left",
         }}
       />
-    </div>
+    </motion.div>
   );
 };
 
@@ -242,7 +240,13 @@ const SocialProof = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
           <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch">
             <div className="lg:col-span-3 lg:border-r border-b lg:border-b-0 border-stone-200 py-6 lg:py-8 pr-0 lg:pr-8">
-              <div className="flex lg:flex-col items-center lg:items-start justify-between lg:justify-start gap-4 lg:gap-5">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6 }}
+                className="flex lg:flex-col items-center lg:items-start justify-between lg:justify-start gap-4 lg:gap-5"
+              >
                 <p className="text-[9px] font-bold text-stone-400 uppercase tracking-[0.3em] flex items-center gap-2 shrink-0">
                   <span
                     className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block"
@@ -269,23 +273,19 @@ const SocialProof = () => {
 
                 <div className="hidden lg:flex items-end gap-0.5 h-5">
                   {[40, 55, 35, 70, 60, 80, 65, 90, 75, 100].map((h, i) => (
-                    <div
+                    <motion.div
                       key={i}
+                      initial={{ height: "0%" }}
+                      whileInView={{ height: `${h}%` }}
+                      viewport={{ once: true, margin: "-100px" }}
+                      transition={{ duration: 0.6, delay: i * 0.05 }}
                       className="w-1 bg-stone-200 rounded-sm relative overflow-hidden"
-                      style={{ height: `${h}%` }}
                     >
-                      <div
-                        className="absolute bottom-0 left-0 right-0 bg-stone-700 rounded-sm transition-all"
-                        style={{
-                          height: inView ? "100%" : "0%",
-                          transitionDelay: `${i * 60}ms`,
-                          transitionDuration: "400ms",
-                        }}
-                      />
-                    </div>
+                      <div className="absolute bottom-0 left-0 right-0 bg-stone-700 rounded-sm h-full" />
+                    </motion.div>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             </div>
 
             <div className="lg:col-span-9 py-6 lg:py-8 lg:pl-10">
@@ -295,9 +295,15 @@ const SocialProof = () => {
                 ))}
               </div>
 
-              <div className="mt-4 pt-4 border-t border-stone-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="mt-4 pt-4 border-t border-stone-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2"
+              >
                 <p className="text-[9px] font-mono text-stone-400 tracking-widest uppercase">
-                  HIGH-PRECISION PERSONAL ECONOMY ENGINE
+                  AI-GUIDED PERSONAL WEALTH OPTIMIZATION
                 </p>
                 <div className="flex items-center gap-2">
                   <span
@@ -308,7 +314,7 @@ const SocialProof = () => {
                     ALL SYSTEMS OPERATIONAL
                   </span>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>

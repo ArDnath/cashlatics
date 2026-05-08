@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import {
   ChartLineUp,
   GithubLogo,
@@ -30,18 +31,22 @@ const Footer = () => {
             <div>
               <div className="flex items-center gap-3 mb-6">
                 {/* Geometric Logo Container */}
-                <div
-                  className="w-10 h-10 bg-stone-900 dark:bg-stone-100 flex items-center justify-center transform rotate-3 hover:rotate-0 transition-transform duration-300"
-                  style={{ borderRadius: "12px 4px 12px 4px" }}
-                >
-                  <ChartLineUp
-                    className="text-stone-50 dark:text-stone-900 w-5 h-5 -rotate-3 hover:rotate-0"
-                    weight="bold"
-                  />
-                </div>
-                <span className="font-sans font-bold text-2xl tracking-tight text-stone-900 dark:text-stone-50">
-                  Cashlatics
-                </span>
+                <a href="#" className="flex gap-2">
+                  <div
+                    className="w-10 h-10 flex items-center justify-center "
+                    style={{ borderRadius: "12px 4px 12px 4px" }}
+                  >
+                    <Image
+                      src="/wallet.png"
+                      alt="Cashlatics Logo"
+                      width={38}
+                      height={38}
+                    />
+                  </div>
+                  <span className="font-sans font-bold text-2xl tracking-tight text-stone-900 dark:text-stone-50">
+                    Cashlatics
+                  </span>
+                </a>
               </div>
               <p className="text-stone-500 dark:text-stone-400 text-sm leading-relaxed max-w-sm">
                 A modern, elegant solution for comprehensive wealth tracking and

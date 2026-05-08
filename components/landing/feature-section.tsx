@@ -20,31 +20,31 @@ const features: Feature[] = [
   {
     id: "F.01",
     icon: PieChart,
-    title: "Smart Budgeting",
-    desc: "Set custom budgets for categories like Food and Rent. Get alerts before you overspend.",
+    title: "AI-Powered Budgeting",
+    desc: "Set smart budgets for your lifestyle. AI learns your patterns and alerts you before overspending.",
     stat: "94%",
-    statLabel: "avg. accuracy",
+    statLabel: "accuracy",
   },
   {
     id: "F.02",
     icon: Zap,
-    title: "Instant Sync",
-    desc: "Connect bank accounts securely. Transactions are categorized automatically using AI.",
+    title: "Real-Time Sync",
+    desc: "Connect securely. Transactions auto-categorized by AI in milliseconds.",
     stat: "48ms",
     statLabel: "sync latency",
   },
   {
     id: "F.03",
     icon: TrendingUp,
-    title: "Investment Tracking",
-    desc: "Watch your net worth grow. Track stocks and crypto assets in real-time.",
+    title: "Wealth Tracking",
+    desc: "Monitor your net worth across all assets. Watch AI-driven insights grow your wealth.",
     stat: "+12.4%",
     statLabel: "avg. gain",
   },
   {
     id: "F.04",
     icon: Shield,
-    title: "AES-256 Security",
+    title: "Enterprise Security",
     desc: "Your data is encrypted with bank-grade protocols. We never sell your personal information.",
     stat: "256-bit",
     statLabel: "encryption",
@@ -52,16 +52,16 @@ const features: Feature[] = [
   {
     id: "F.05",
     icon: Users,
-    title: "Family Sharing",
-    desc: "Manage household finances together. Share budgets and goals with your partner.",
+    title: "Family Finances",
+    desc: "Sync with family. Share goals and let AI guide collective wealth building.",
     stat: "∞",
     statLabel: "shared goals",
   },
   {
     id: "F.06",
     icon: Globe,
-    title: "Multi-Currency",
-    desc: "Support for over 120 currencies with real-time exchange rate conversion.",
+    title: "Global Support",
+    desc: "Invest worldwide. AI handles multi-currency tracking seamlessly.",
     stat: "120+",
     statLabel: "currencies",
   },
@@ -148,7 +148,7 @@ const FeatureCard = ({
     <motion.article
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      viewport={{ once: true, margin: "-100px" }}
       transition={{
         duration: 0.5,
         delay: index * 0.1,
@@ -225,28 +225,28 @@ const FeatureCard = ({
 
 export default function FeaturesSection() {
   return (
-    <section className="py-24 px-6">
+    <section id="feature-section" className="py-24 px-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-20 space-y-4">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-100px" }}
             className="flex items-center gap-2 text-stone-400 font-mono text-[10px] tracking-[0.3em] uppercase"
           >
             <span className="w-2 h-2 rounded-full bg-stone-800" />
-            Core Architecture
+            AI-Powered Features
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "-100px" }}
             transition={{ delay: 0.1 }}
             className="text-4xl font-bold text-stone-900 tracking-tighter"
           >
             Precision engineering <br />
-            <span className="text-stone-400">for your capital.</span>
+            <span className="text-stone-400">for your wealth.</span>
           </motion.h2>
         </div>
 
@@ -261,17 +261,17 @@ export default function FeaturesSection() {
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
           transition={{ delay: 0.8 }}
           className="mt-8 flex items-center justify-between"
         >
           <div className="flex items-center gap-4">
             <div className="h-px w-12 bg-stone-300" />
             <span className="font-mono text-[9px] text-stone-400 tracking-[0.2em] uppercase">
-              System Optimized: Ready for deployment
+              AI Engine: Ready for deployment
             </span>
           </div>
-          <div className="text-stone-300 font-mono text-[9px]">0x42_F0_A1</div>
+          <div className="text-stone-300 font-mono text-[9px]">0x42_AI_01</div>
         </motion.div>
       </div>
     </section>
