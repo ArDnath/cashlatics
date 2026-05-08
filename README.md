@@ -18,7 +18,7 @@
 *   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
 *   **Language:** [TypeScript](https://www.typescriptlang.org/)
 *   **Backend/API:** [Hono](https://hono.dev/)
-*   **Database:** [Prisma](https://www.prisma.io/)
+*   **Database:** Drizzle
 *   **Deployment:** [Vercel](https://vercel.com/)
 
 ## 📦 Getting Started
