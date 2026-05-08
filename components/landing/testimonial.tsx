@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, FC } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image"; // Ensure you import the Next.js Image component
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -13,6 +14,7 @@ interface Testimonial {
   rating: number;
   date: string;
   quote: string;
+  image: string; // Added image field
 }
 
 interface StarsProps {
@@ -32,6 +34,7 @@ const testimonials: Testimonial[] = [
     date: "12 Apr, 2026",
     quote:
       "The AI advisor caught a forgotten subscription I'd been paying for months. It's like having an intelligent CFO in my pocket that actually understands variable developer income and gives real guidance.",
+    image: "/avatars/avatar-alex-starling.png", // Ensure this matches your public folder exactly
   },
   {
     id: "T.02",
@@ -42,6 +45,7 @@ const testimonials: Testimonial[] = [
     date: "08 May, 2026",
     quote:
       "The AI's tax-saving investment guidance saved me $2k this season. It learns my spending patterns and proactively suggests optimizations. Finally, an app that gives smart advice, not just data.",
+    image: "/avatars/avatar-markas-kane.png",
   },
   {
     id: "T.03",
@@ -52,6 +56,7 @@ const testimonials: Testimonial[] = [
     date: "19 Feb, 2026",
     quote:
       "The AI insights into my lifestyle spending versus long-term wealth goals gave me the reality check I needed. It's not just tracking—it's actively guiding me toward better financial decisions.",
+    image: "/avatars/avatar-lena-yang.png",
   },
 ];
 
@@ -185,12 +190,16 @@ const TestimonialsSection: FC = () => {
                         }}
                         className="rounded-full flex-shrink-0 border-2 bg-stone-100 flex items-center justify-center overflow-hidden"
                       >
-                        <motion.span
-                          animate={{ fontSize: isActive ? "12px" : "9px" }}
-                          className="font-mono font-bold text-stone-600 leading-none"
-                        >
-                          {item.initials}
-                        </motion.span>
+                        {/* Swapped Initials for actual Image */}
+                        <Image
+                          src={item.image}
+                          alt={item.author}
+                          width={50}
+                          height={50}
+                          className={`object-cover w-full h-full transition-all duration-500 ${
+                            isActive ? "grayscale-0" : "grayscale"
+                          }`}
+                        />
                       </motion.div>
 
                       <motion.div
@@ -258,10 +267,15 @@ const TestimonialsSection: FC = () => {
                   </div>
 
                   <div className="flex items-center gap-3 pt-5 border-t border-stone-100 clear-both">
-                    <div className="w-7 h-7 rounded-full bg-stone-900 flex items-center justify-center flex-shrink-0">
-                      <span className="font-mono text-[8px] font-bold text-white">
-                        {t.initials}
-                      </span>
+                    <div className="w-7 h-7 rounded-full bg-stone-900 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                      {/* Substituted background span with author image */}
+                      <Image
+                        src={t.image}
+                        alt={t.author}
+                        width={28}
+                        height={28}
+                        className="object-cover w-full h-full"
+                      />
                     </div>
                     <div>
                       <p className="text-xs font-bold text-stone-800 leading-none mb-0.5 tracking-tight uppercase">

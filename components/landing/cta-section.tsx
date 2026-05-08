@@ -158,18 +158,6 @@ const CtaSection: React.FC = () => {
                     →
                   </motion.span>
                 </motion.button>
-
-                <motion.button
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
-                  className="border border-stone-200 text-stone-900 px-8 py-4 font-mono text-xs font-bold tracking-widest uppercase hover:bg-stone-50 transition-colors"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  View Pricing
-                </motion.button>
               </motion.div>
             </div>
           </motion.div>
