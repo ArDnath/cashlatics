@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cashlatics 💸
 
-## Getting Started
+**Cashlatics** is a precision-engineered personal finance tracker and AI-driven financial advisory platform. Designed for the modern investor, it acts as a "financial second brain" to help you monitor assets, automate expense tracking, and generate predictive insights into your liquidity and long-term wealth.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Key Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+*   **Intelligent Expense Tracking:** Automated categorization of spending patterns to visualize where your money goes.
+*   **AI Financial Advisor:** Personalized insights and predictive analysis to help you reach your savings goals faster.
+*   **Unified Asset Management:** Track diverse investments, bank accounts, and assets in one centralized dashboard.
+*   **Minimalist UI/UX:** A clean, high-efficiency interface focused on clarity and ease of use.
+*   **Security First:** Built with robust data encryption and privacy-focused architecture to protect your financial history.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+*   **Frontend:** [Next.js](https://nextjs.org/) (App Router)
+*   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+*   **Language:** [TypeScript](https://www.typescriptlang.org/)
+*   **Backend/API:** [Hono](https://hono.dev/)
+*   **Database:** [Prisma](https://www.prisma.io/)
+*   **Deployment:** [Vercel](https://vercel.com/)
 
-## Learn More
+## 📦 Getting Started
 
-To learn more about Next.js, take a look at the following resources:
+### Prerequisites
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+*   Node.js (LTS)
+*   pnpm or npm
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Installation
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/yourusername/cashlatics.git](https://github.com/yourusername/cashlatics.git)
+    cd cashlatics
