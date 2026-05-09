@@ -8,7 +8,6 @@ import { useSessionState } from "@/hooks/useSessionState";
 import { List, X } from "@phosphor-icons/react";
 import { useState } from "react";
 import Image from "next/image";
-import { Jacquard_24 } from "next/font/google";
 
 function Navbar() {
   const router = useRouter();
@@ -28,15 +27,12 @@ function Navbar() {
 
   if (loading) {
     return (
-      <div className="h-16 flex justify-between items-center px-8 border-b-2 border-stone-700 sticky top-0 z-50">
+      <div className="h-16 flex justify-between items-center px-8 border-b-2 border-stone-600 bg-stone-50/60 backdrop-blur-md sticky top-0 z-50 transition-all">
         <Link
           href="/"
           className="flex items-center gap-2 hover:opacity-80 transition-opacity"
         >
-          <div
-            className="w-10 h-10 bg-stone-900 dark:bg-stone-100 flex items-center justify-center transform rotate-3 hover:rotate-0 transition-transform duration-300"
-            style={{ borderRadius: "12px 4px 12px 4px" }}
-          >
+          <div className="w-10 h-10 bg-stone-100 animate-pulse border-stone-300 rounded-lg pulse flex items-center justify-center">
             <Image
               src="/wallet.png"
               alt="Cashlatics Logo"
@@ -48,7 +44,7 @@ function Navbar() {
             Cashlatics
           </span>
         </Link>
-        <div className="h-10 w-20 bg-stone-100 animate-pulse rounded-sm border border-stone-200" />
+        <div className="h-10 w-20 bg-stone-100 animate-pulse rounded-sm border border-stone-300" />
       </div>
     );
   }

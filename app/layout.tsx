@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins, Inter, Geologica } from "next/font/google";
-import "./globals.css";
-import Navbar from "@/components/navbar";
+import "@/app/globals.css";
 import { Toaster } from "sonner";
 
 const geologica = Geologica({
@@ -34,10 +33,7 @@ export default function RootLayout({
       <body
         className={`${geologica.variable} ${poppins.variable} ${inter.className}`}
       >
-        <div className="fixed top-0 left-0 right-0 z-50">
-          <Navbar />
-        </div>
-        <div className="pt-16">{children}</div>
+        {children}
         <Toaster />
       </body>
     </html>
