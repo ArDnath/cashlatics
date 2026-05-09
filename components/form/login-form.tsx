@@ -243,7 +243,7 @@ export default function LoginForm({
         {/* Mobile Header: Logo links back home */}
         <Link href="/" className="mb-8 flex items-center gap-3 lg:hidden group">
           <Image
-            src="/logo.svg"
+            src="/wallet.png"
             alt="Cashlatics Logo"
             width={28}
             height={28}

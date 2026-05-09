@@ -219,7 +219,7 @@ export default function SignupForm({
       <div className="flex flex-1 flex-col items-center justify-center bg-stone-50 px-6 py-12">
         <Link href="/" className="mb-8 flex items-center gap-3 lg:hidden group">
           <Image
-            src="/logo.svg"
+            src="/wallet.png"
             alt="Logo"
             width={28}
             height={28}
