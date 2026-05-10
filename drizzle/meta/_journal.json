@@ -8,6 +8,20 @@
       "when": 1777887774415,
       "tag": "0000_flaky_dreaming_celestial",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1778409088918,
+      "tag": "0001_sour_bill_hollister",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1778409590497,
+      "tag": "0002_premium_vulture",
+      "breakpoints": true
     }
   ]
 }
