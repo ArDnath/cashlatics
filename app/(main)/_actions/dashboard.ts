@@ -9,10 +9,9 @@ import { revalidatePath } from "next/cache";
 import { eq, desc, and } from "drizzle-orm";
 import { headers } from "next/headers";
 
-// 1. Define the interface for the Create Account data
 export interface CreateAccountInput {
   name: string;
-  type: "CURRENT" | "SAVINGS"; // Adjust based on your schema
+  type: "CURRENT" | "SAVINGS";
   balance: string | number;
   isDefault: boolean;
 }

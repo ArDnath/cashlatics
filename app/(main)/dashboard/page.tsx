@@ -1,43 +1,76 @@
-import Container from "@/components/layout/container";
-import { getCurrentUser } from "@/server/user";
+import { getUserAccounts } from "@/app/(main)/_actions/dashboard";
+import { getDashboardData } from "@/app/(main)/_actions/dashboard";
+import { getCurrentBudget } from "@/app/(main)/_actions/budget";
+import { seedTransactions } from "@/app/(main)/_actions/seed";
+import { Plus } from "lucide-react";
+import Link from "next/link";
+import { ModernBudgetProgress } from "./_components/modern-budget-progress";
+import { ModernDashboardOverview } from "./_components/modern-transaction-overview";
+import { ModernAccountCard } from "./_components/modern-account-card";
 
 export default async function DashboardPage() {
-  // This server function will redirect to /login if not authenticated
-  const { currentUser } = await getCurrentUser();
+  const [accounts, transactions] = await Promise.all([
+    getUserAccounts(),
+    getDashboardData(),
+  ]);
+
+  const defaultAccount = accounts?.find((account) => account.isDefault);
+
+  // Get budget for default account
+  let budgetData = null;
+  if (defaultAccount) {
+    budgetData = await getCurrentBudget(defaultAccount.id);
+  }
 
   return (
-    <Container className="py-8">
-      <div className="space-y-8">
-        <div>
-          <h1 className="text-4xl font-bold">Welcome, {currentUser?.name}!</h1>
-          <p className="text-muted-foreground mt-2">
-            Email: {currentUser?.email}
-          </p>
-        </div>
+    <div className="space-y-8">
+      {/* Budget Progress */}
+      <ModernBudgetProgress
+        initialBudget={budgetData?.budget}
+        currentExpenses={budgetData?.currentExpenses || 0}
+      />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="border rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-2">Account</h2>
-            <p className="text-muted-foreground">
-              Manage your account settings and preferences
-            </p>
-          </div>
+      {/* Dashboard Overview */}
+      <ModernDashboardOverview
+        accounts={accounts}
+        transactions={transactions || []}
+      />
 
-          <div className="border rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-2">Analytics</h2>
-            <p className="text-muted-foreground">
-              View your financial analytics and reports
-            </p>
+      {/* Accounts Grid */}
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <Link href="/account/create">
+          <div className="group relative overflow-hidden rounded-2xl p-[1px] h-full cursor-pointer">
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-200 to-slate-100 dark:from-neutral-800 dark:to-neutral-900 opacity-100 transition-opacity" />
+            <div className="relative h-full bg-white dark:bg-neutral-950 rounded-2xl flex flex-col items-center justify-center p-6 border-2 border-dashed border-slate-200 dark:border-neutral-800 group-hover:border-blue-500/50 transition-colors">
+              <div className="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                <Plus className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+              </div>
+              <p className="text-sm font-bold text-slate-900 dark:text-white">
+                Add New Account
+              </p>
+              <p className="text-xs text-slate-500 dark:text-neutral-400 mt-1">
+                Connect a bank or card
+              </p>
+            </div>
           </div>
-
-          <div className="border rounded-lg p-6">
-            <h2 className="text-xl font-semibold mb-2">Settings</h2>
-            <p className="text-muted-foreground">
-              Configure your app settings and preferences
-            </p>
-          </div>
-        </div>
+        </Link>
+        {accounts.length > 0 &&
+          accounts?.map((account) => (
+            <ModernAccountCard key={account.id} account={account} />
+          ))}
       </div>
-    </Container>
+
+      {/* Seed Data Button */}
+      <div className="flex justify-center pt-8">
+        <form action={seedTransactions}>
+          <button
+            type="submit"
+            className="px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-lg hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors text-sm font-medium"
+          >
+            Seed Random Data
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }
