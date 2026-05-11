@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Pencil, Check, X, AlertTriangle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { updateBudget } from "@/app/(main)/_actions/budget"; // Assuming this is your Server Action
@@ -57,8 +57,10 @@ export function ModernBudgetProgress({
       } else {
         toast.error(result.error || "Failed to update budget");
       }
-    } catch (err) {
-      toast.error("An unexpected error occurred");
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error ? err.message : "An unexpected error occurred";
+      toast.error(errorMessage);
     } finally {
       setIsUpdating(false);
     }
@@ -147,7 +149,7 @@ export function ModernBudgetProgress({
           className={`absolute top-0 left-0 h-full ${progressColor} transition-all duration-1000 ease-out rounded-full`}
           style={{ width: `${Math.min(percentUsed, 100)}%` }}
         >
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
+          <div className="absolute top-0 left-0 w-full h-full bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
         </div>
       </div>
 

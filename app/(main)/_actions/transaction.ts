@@ -3,7 +3,7 @@
 import { auth } from "@/lib/auth";
 import { db } from "@/db";
 import { transactions, accounts } from "@/db/schema";
-import { eq, and, desc, sql } from "drizzle-orm";
+import { eq, and, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import aj from "@/lib/arcjet";
@@ -15,8 +15,20 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 const serializeAmount = (val: string | number | null): number =>
   val ? parseFloat(val.toString()) : 0;
 
+interface TransactionInput {
+  amount: string | number;
+  type: "INCOME" | "EXPENSE";
+  accountId: string;
+  description?: string | null;
+  date: Date;
+  category: string;
+  receiptUrl?: string | null;
+  isRecurring: boolean;
+  recurringInterval?: "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY" | null;
+}
+
 // --- CREATE TRANSACTION ---
-export async function createTransaction(data: any) {
+export async function createTransaction(data: TransactionInput) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) throw new Error("Unauthorized");
@@ -36,16 +48,23 @@ export async function createTransaction(data: any) {
     // Atomic Database Transaction
     const newTransaction = await db.transaction(async (tx) => {
       // 1. Calculate Balance Change
-      const amount = parseFloat(data.amount);
+      const amount = parseFloat(data.amount.toString());
       const balanceChange = data.type === "EXPENSE" ? -amount : amount;
 
       // 2. Insert Transaction
       const [inserted] = await tx
         .insert(transactions)
         .values({
-          ...data,
-          userId: session.user.id,
+          type: data.type,
           amount: amount.toString(),
+          date: data.date,
+          accountId: data.accountId,
+          category: data.category,
+          description: data.description || null,
+          receiptUrl: data.receiptUrl || null,
+          isRecurring: data.isRecurring,
+          recurringInterval: data.recurringInterval || null,
+          userId: session.user.id,
           nextRecurringDate:
             data.isRecurring && data.recurringInterval
               ? calculateNextRecurringDate(data.date, data.recurringInterval)
@@ -57,7 +76,7 @@ export async function createTransaction(data: any) {
       await tx
         .update(accounts)
         .set({
-          balance: sql`${accounts.balance} + ${balanceChange.toString()}`,
+          balance: sql`${accounts.balance} + ${balanceChange.toString()}::numeric`,
         })
         .where(eq(accounts.id, data.accountId));
 
@@ -73,13 +92,15 @@ export async function createTransaction(data: any) {
         amount: serializeAmount(newTransaction.amount),
       },
     };
-  } catch (error: any) {
-    throw new Error(error.message);
+  } catch (error: unknown) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
+    throw new Error(errorMessage);
   }
 }
 
 // --- UPDATE TRANSACTION ---
-export async function updateTransaction(id: string, data: any) {
+export async function updateTransaction(id: string, data: TransactionInput) {
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     if (!session) throw new Error("Unauthorized");
@@ -95,7 +116,7 @@ export async function updateTransaction(id: string, data: any) {
 
     const oldAmount = serializeAmount(original.amount);
     const oldChange = original.type === "EXPENSE" ? -oldAmount : oldAmount;
-    const newAmount = parseFloat(data.amount);
+    const newAmount = parseFloat(data.amount.toString());
     const newChange = data.type === "EXPENSE" ? -newAmount : newAmount;
     const netChange = newChange - oldChange;
 
@@ -103,8 +124,14 @@ export async function updateTransaction(id: string, data: any) {
       const [res] = await tx
         .update(transactions)
         .set({
-          ...data,
+          type: data.type,
           amount: newAmount.toString(),
+          date: data.date,
+          category: data.category,
+          description: data.description || null,
+          receiptUrl: data.receiptUrl || null,
+          isRecurring: data.isRecurring,
+          recurringInterval: data.recurringInterval || null,
           nextRecurringDate:
             data.isRecurring && data.recurringInterval
               ? calculateNextRecurringDate(data.date, data.recurringInterval)
@@ -126,8 +153,10 @@ export async function updateTransaction(id: string, data: any) {
       success: true,
       data: { ...updated, amount: serializeAmount(updated.amount) },
     };
-  } catch (error: any) {
-    throw new Error(error.message);
+  } catch (error: unknown) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
+    throw new Error(errorMessage);
   }
 }
 
@@ -160,8 +189,10 @@ export async function scanReceipt(file: File) {
       category: data.category,
       merchantName: data.merchantName,
     };
-  } catch (error) {
-    console.error("Receipt Scan Error:", error);
+  } catch (error: unknown) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
+    console.error("Receipt Scan Error:", errorMessage);
     throw new Error("Failed to scan receipt");
   }
 }

@@ -2,7 +2,7 @@
 
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -26,7 +26,7 @@ export function AccountCard({ account }: { account: Account }) {
   const { name, type, balance, id, isDefault } = account;
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleDefaultChange = async (checked: boolean) => {
+  const handleDefaultChange = async () => {
     if (isDefault) {
       toast.warning("You need at least 1 default account");
       return;
@@ -40,8 +40,10 @@ export function AccountCard({ account }: { account: Account }) {
       } else {
         throw new Error(result?.error || "Failed to update");
       }
-    } catch (err: any) {
-      toast.error(err.message || "Failed to update default account");
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to update default account";
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }

@@ -29,7 +29,7 @@ export function ModernAccountCard({ account }: ModernAccountCardProps) {
   const [isPending, startTransition] = useTransition();
   const { refetchSession } = useSessionState();
 
-  const handleDefaultChange = async (checked: boolean) => {
+  const handleDefaultChange = async () => {
     if (isDefault) {
       toast.warning("You need at least 1 default account");
       return;
@@ -44,20 +44,22 @@ export function ModernAccountCard({ account }: ModernAccountCardProps) {
         } else {
           toast.error("Failed to update default account");
         }
-      } catch (error) {
-        toast.error("An unexpected error occurred");
+      } catch (err: unknown) {
+        const errorMessage =
+          err instanceof Error ? err.message : "An unexpected error occurred";
+        toast.error(errorMessage);
       }
     });
   };
 
   return (
     <Link href={`/account/${id}`}>
-      <div className="group relative overflow-hidden rounded-2xl p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl bg-gradient-to-br from-slate-900 to-slate-800 dark:from-neutral-900 dark:to-neutral-800 border border-slate-800/50">
+      <div className="group relative overflow-hidden rounded-2xl p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl bg-linear-to-br from-slate-900 to-slate-800 dark:from-neutral-900 dark:to-neutral-800 border border-slate-800/50">
         {/* Background Decoration */}
         <div className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-blue-500/10 blur-3xl transition-all duration-500 group-hover:bg-blue-500/20" />
         <div className="absolute -bottom-12 -left-12 h-40 w-40 rounded-full bg-purple-500/10 blur-3xl transition-all duration-500 group-hover:bg-purple-500/20" />
 
-        <div className="relative z-10 flex flex-col justify-between h-full min-h-[180px]">
+        <div className="relative z-10 flex flex-col justify-between h-full min-h-45">
           <div className="flex justify-between items-start">
             <div>
               <p className="text-sm font-medium text-slate-400 mb-1 capitalize">

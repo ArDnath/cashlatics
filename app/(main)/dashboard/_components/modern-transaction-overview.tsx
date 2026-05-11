@@ -40,7 +40,7 @@ interface Transaction {
   amount: number;
   category: string;
   date: string | Date;
-  description?: string;
+  description?: string | null;
 }
 
 interface ModernDashboardOverviewProps {
@@ -114,7 +114,7 @@ export function ModernDashboardOverview({
             value={selectedAccountId}
             onValueChange={setSelectedAccountId}
           >
-            <SelectTrigger className="w-[160px] h-9 rounded-lg bg-slate-50 dark:bg-neutral-800 border-slate-200 dark:border-neutral-700">
+            <SelectTrigger className="w-40 h-9 rounded-lg bg-slate-50 dark:bg-neutral-800 border-slate-200 dark:border-neutral-700">
               <SelectValue placeholder="Select Account" />
             </SelectTrigger>
             <SelectContent>
@@ -127,7 +127,7 @@ export function ModernDashboardOverview({
           </Select>
         </div>
 
-        <div className="flex-1 min-h-[300px] relative">
+        <div className="flex-1 min-h-75 relative">
           {pieChartData.length === 0 ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
               <div className="w-16 h-16 bg-slate-100 dark:bg-neutral-800 rounded-full flex items-center justify-center mb-4">
@@ -166,8 +166,10 @@ export function ModernDashboardOverview({
                     boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                   }}
                   itemStyle={{ color: "#1e293b", fontWeight: "bold" }}
-                  formatter={(value: any) =>
-                    `₹${Number(value).toLocaleString(undefined, { minimumFractionDigits: 2 })}`
+                  formatter={(value) =>
+                    typeof value === "number"
+                      ? `₹${value.toLocaleString(undefined, { minimumFractionDigits: 2 })}`
+                      : ""
                   }
                 />
                 <Legend
@@ -184,7 +186,7 @@ export function ModernDashboardOverview({
       </div>
 
       {/* Recent Activity Section */}
-      <div className="rounded-2xl bg-white dark:bg-neutral-900 p-6 shadow-sm border border-slate-100 dark:border-neutral-800 flex flex-col h-[450px]">
+      <div className="rounded-2xl bg-white dark:bg-neutral-900 p-6 shadow-sm border border-slate-100 dark:border-neutral-800 flex flex-col h-112.5">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-bold text-slate-900 dark:text-white">
             Recent Activity
