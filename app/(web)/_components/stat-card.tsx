@@ -9,8 +9,6 @@ interface StatCardProps {
   value: string;
   change?: number;
   icon: LucideIcon;
-  iconColor?: string;
-  iconBg?: string;
   prefix?: string;
   delay?: number;
 }
@@ -27,55 +25,65 @@ export function StatCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.22, delay, ease: "easeOut" }}
-      className="relative  border border-stone-800 p-5 group hover:border-stone-700 transition-colors duration-150"
+      transition={{ duration: 0.3, delay, ease: [0.23, 1, 0.32, 1] }}
+      whileHover={{ y: -4, transition: { duration: 0.2 } }}
+      className="relative bg-white border border-stone-200 p-6 group transition-all duration-200 hover:shadow-lg hover:shadow-stone-200/50"
     >
-      {/* Corner ticks — top-left */}
-      <span className="absolute top-0 left-0 h-2.5 w-px  group-hover:bg-stone-500 transition-colors" />
-      <span className="absolute top-0 left-0 h-px w-2.5  group-hover:bg-stone-500 transition-colors" />
-      {/* Corner ticks — bottom-right */}
-      <span className="absolute bottom-0 right-0 h-2.5 w-px group-hover:bg-stone-500 transition-colors" />
-      <span className="absolute bottom-0 right-0 h-px w-2.5  group-hover:bg-stone-500 transition-colors" />
+      {/* Corner Ticks — Refined for Light Theme */}
+      <span className="absolute top-0 left-0 h-3 w-[1.5px] bg-stone-300 group-hover:bg-stone-950 transition-colors" />
+      <span className="absolute top-0 left-0 h-[1.5px] w-3 bg-stone-300 group-hover:bg-stone-950 transition-colors" />
+      <span className="absolute bottom-0 right-0 h-3 w-[1.5px] bg-stone-300 group-hover:bg-stone-950 transition-colors" />
+      <span className="absolute bottom-0 right-0 h-[1.5px] w-3 bg-stone-300 group-hover:bg-stone-950 transition-colors" />
 
       {/* Header row */}
-      <div className="flex items-start justify-between mb-5">
-        {/* Square icon box */}
-        <div className="h-7 w-7 border border-stone-800 bg-stone-800/10 flex items-center justify-center group-hover:border-stone-600 transition-colors">
-          <Icon className="h-3.5 w-3.5 text-stone-800" />
-        </div>
+      <div className="flex items-start justify-between mb-6">
+        {/* Square icon box - High Contrast */}
+        <motion.div
+          whileHover={{ rotate: -5, scale: 1.1 }}
+          className="h-9 w-9 border border-stone-200 bg-stone-50 flex items-center justify-center group-hover:border-stone-900 group-hover:bg-stone-900 transition-all duration-200"
+        >
+          <Icon className="h-4 w-4 text-stone-950 group-hover:text-white transition-colors" />
+        </motion.div>
 
-        {/* Change badge — square, no pill */}
+        {/* Change badge — Sharper Typography */}
         {change !== undefined && (
           <div
             className={cn(
-              "flex items-center gap-1 text-[10px] font-semibold uppercase tracking-[0.08em] px-2 py-1 border",
+              "flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider px-2.5 py-1.5 border",
               isPositive
-                ? "text-emerald-400 border-emerald-900 bg-emerald-950/60"
-                : "text-red-400 border-red-900 bg-red-950/60",
+                ? "text-emerald-700 border-emerald-100 bg-emerald-50"
+                : "text-rose-700 border-rose-100 bg-rose-50",
             )}
           >
             {isPositive ? (
-              <TrendingUp className="h-2.5 w-2.5" />
+              <TrendingUp className="h-3 w-3" />
             ) : (
-              <TrendingDown className="h-2.5 w-2.5" />
+              <TrendingDown className="h-3 w-3" />
             )}
             {Math.abs(change).toFixed(1)}%
           </div>
         )}
       </div>
 
-      {/* Value */}
-      <p className="text-2xl font-semibold text-stone-100 tracking-tight tabular-nums">
-        {prefix}
+      {/* Value - Bold Visibility */}
+      <motion.p
+        layoutId={`value-${title}`}
+        className="text-3xl font-black text-stone-950 tracking-tight tabular-nums"
+      >
+        <span className="text-stone-400 font-medium mr-0.5">{prefix}</span>
         {value}
-      </p>
+      </motion.p>
 
-      {/* Title + geometric separator */}
-      <div className="flex items-center gap-2 mt-2">
-        <span className="h-px w-3 bg-stone-700" />
-        <p className="text-[10px] uppercase tracking-[0.14em] text-stone-500">
+      {/* Title + Animated Separator */}
+      <div className="flex items-center gap-3 mt-3">
+        <motion.span
+          initial={{ width: 12 }}
+          whileHover={{ width: 24 }}
+          className="h-[2px] bg-stone-950 transition-all duration-300"
+        />
+        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-stone-500 group-hover:text-stone-900 transition-colors">
           {title}
         </p>
       </div>

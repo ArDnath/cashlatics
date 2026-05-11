@@ -9,6 +9,36 @@ import {
   Text,
 } from "@react-email/components";
 
+// ─── Types ─────────────────────────────────────────────────────────────────────
+
+interface MonthlyReportData {
+  month: string;
+  stats: {
+    totalIncome: number;
+    totalExpenses: number;
+    byCategory: Record<string, number>;
+  };
+  insights: string[];
+}
+
+interface BudgetAlertData {
+  percentageUsed: number;
+  budgetAmount: number;
+  totalExpenses: number;
+}
+
+type EmailTemplateProps =
+  | {
+      userName?: string;
+      type: "monthly-report";
+      data: MonthlyReportData;
+    }
+  | {
+      userName?: string;
+      type: "budget-alert";
+      data: BudgetAlertData;
+    };
+
 // Dummy data for preview
 const PREVIEW_DATA = {
   monthlyReport: {
@@ -45,12 +75,11 @@ const PREVIEW_DATA = {
   },
 };
 
-export default function EmailTemplate({
-  userName = "",
-  type = "monthly-report",
-  data = {},
-}) {
+export default function EmailTemplate(props: EmailTemplateProps) {
+  const { userName = "", type, data } = props;
+
   if (type === "monthly-report") {
+    const reportData = data as MonthlyReportData;
     return (
       <Html>
         <Head />
@@ -61,32 +90,32 @@ export default function EmailTemplate({
 
             <Text style={styles.text}>Hello {userName},</Text>
             <Text style={styles.text}>
-              Here&rsquo;s your financial summary for {data?.month}:
+              Here&rsquo;s your financial summary for {reportData.month}:
             </Text>
 
             {/* Main Stats */}
             <Section style={styles.statsContainer}>
               <div style={styles.stat}>
                 <Text style={styles.text}>Total Income</Text>
-                <Text style={styles.heading}>₹{data?.stats.totalIncome}</Text>
+                <Text style={styles.heading}>₹{reportData.stats.totalIncome}</Text>
               </div>
               <div style={styles.stat}>
                 <Text style={styles.text}>Total Expenses</Text>
-                <Text style={styles.heading}>₹{data?.stats.totalExpenses}</Text>
+                <Text style={styles.heading}>₹{reportData.stats.totalExpenses}</Text>
               </div>
               <div style={styles.stat}>
                 <Text style={styles.text}>Net</Text>
                 <Text style={styles.heading}>
-                  ₹{data?.stats.totalIncome - data?.stats.totalExpenses}
+                  ₹{reportData.stats.totalIncome - reportData.stats.totalExpenses}
                 </Text>
               </div>
             </Section>
 
             {/* Category Breakdown */}
-            {data?.stats?.byCategory && (
+            {reportData.stats?.byCategory && (
               <Section style={styles.section}>
                 <Heading style={styles.heading}>Expenses by Category</Heading>
-                {Object.entries(data?.stats.byCategory).map(
+                {Object.entries(reportData.stats.byCategory).map(
                   ([category, amount]) => (
                     <div key={category} style={styles.row}>
                       <Text style={styles.text}>{category}</Text>
@@ -98,10 +127,10 @@ export default function EmailTemplate({
             )}
 
             {/* AI Insights */}
-            {data?.insights && (
+            {reportData.insights && (
               <Section style={styles.section}>
                 <Heading style={styles.heading}>Welth Insights</Heading>
-                {data.insights.map((insight, index) => (
+                {reportData.insights.map((insight: string, index: number) => (
                   <Text key={index} style={styles.text}>
                     • {insight}
                   </Text>
@@ -120,6 +149,7 @@ export default function EmailTemplate({
   }
 
   if (type === "budget-alert") {
+    const alertData = data as BudgetAlertData;
     return (
       <Html>
         <Head />
@@ -129,22 +159,22 @@ export default function EmailTemplate({
             <Heading style={styles.title}>Budget Alert</Heading>
             <Text style={styles.text}>Hello {userName},</Text>
             <Text style={styles.text}>
-              You&rsquo;ve used {data?.percentageUsed.toFixed(1)}% of your
+              You&rsquo;ve used {alertData.percentageUsed.toFixed(1)}% of your
               monthly budget.
             </Text>
             <Section style={styles.statsContainer}>
               <div style={styles.stat}>
                 <Text style={styles.text}>Budget Amount</Text>
-                <Text style={styles.heading}>₹{data?.budgetAmount}</Text>
+                <Text style={styles.heading}>₹{alertData.budgetAmount}</Text>
               </div>
               <div style={styles.stat}>
                 <Text style={styles.text}>Spent So Far</Text>
-                <Text style={styles.heading}>₹{data?.totalExpenses}</Text>
+                <Text style={styles.heading}>₹{alertData.totalExpenses}</Text>
               </div>
               <div style={styles.stat}>
                 <Text style={styles.text}>Remaining</Text>
                 <Text style={styles.heading}>
-                  ₹{data?.budgetAmount - data?.totalExpenses}
+                  ₹{alertData.budgetAmount - alertData.totalExpenses}
                 </Text>
               </div>
             </Section>
@@ -171,7 +201,7 @@ const styles = {
     color: "#1f2937",
     fontSize: "32px",
     fontWeight: "bold",
-    textAlign: "center",
+    textAlign: "center" as const,
     margin: "0 0 20px",
   },
   heading: {
@@ -206,15 +236,15 @@ const styles = {
     boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)",
   },
   row: {
-    display: "flex",
-    justifyContent: "space-between",
+    display: "flex" as const,
+    justifyContent: "space-between" as const,
     padding: "12px 0",
     borderBottom: "1px solid #e5e7eb",
   },
   footer: {
     color: "#6b7280",
     fontSize: "14px",
-    textAlign: "center",
+    textAlign: "center" as const,
     marginTop: "32px",
     paddingTop: "16px",
     borderTop: "1px solid #e5e7eb",

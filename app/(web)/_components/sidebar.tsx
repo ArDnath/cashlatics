@@ -15,6 +15,7 @@ import {
   Sparkles,
   Menu,
   X,
+  Settings,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -32,114 +33,139 @@ const navItems = [
   { href: "/dashboard/ai-insights", icon: Sparkles, label: "AI Insights" },
 ];
 
+// --- COMPONENT DEFINED OUTSIDE OF RENDER ---
+interface NavContentProps {
+  pathname: string;
+  setIsOpen: (open: boolean) => void;
+  toggleSidebar: () => void;
+}
+
+const NavContent = ({
+  pathname,
+  setIsOpen,
+  toggleSidebar,
+}: NavContentProps) => (
+  <>
+    <div className="h-px w-full bg-linear-to-r from-stone-200 via-stone-300 to-transparent" />
+
+    {/* Logo */}
+    <div className="px-5 py-4 border-b border-stone-200 flex items-center justify-between">
+      <Link
+        href="/dashboard"
+        className="flex items-center gap-3 group"
+        onClick={() => setIsOpen(false)}
+      >
+        <Image src="/wallet.png" alt="logo" width={30} height={30} />
+        <div className="flex flex-col leading-none">
+          <span className="text-stone-900 text-lg font-black tracking-tight uppercase">
+            Cashlatics
+          </span>
+        </div>
+      </Link>
+      <button onClick={toggleSidebar} className="lg:hidden p-1 text-stone-500">
+        <X className="h-5 w-5" />
+      </button>
+    </div>
+
+    {/* Section label */}
+    <div className="px-5 pt-5 pb-2">
+      <span className="text-[9px] font-semibold tracking-[0.25em] uppercase text-stone-600">
+        Navigation
+      </span>
+    </div>
+
+    {/* Navigation */}
+    <nav className="flex-1 px-3 space-y-px overflow-y-auto pb-2">
+      {navItems.map((item, i) => {
+        const isActive = pathname === item.href;
+        return (
+          <Link
+            key={item.href}
+            href={item.href}
+            onClick={() => setIsOpen(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, x: -6 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.04, duration: 0.2 }}
+              className={cn(
+                "relative flex items-center gap-3 px-3 py-2.5 text-[12px] font-medium tracking-wide transition-all duration-150 group rounded-md",
+                isActive
+                  ? "text-stone-900 bg-stone-100 border border-stone-300"
+                  : "text-stone-700 hover:text-stone-900 hover:bg-stone-100 border border-transparent",
+              )}
+            >
+              {isActive && (
+                <motion.div
+                  layoutId="activeBar"
+                  className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-4 bg-stone-700"
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                />
+              )}
+
+              <div
+                className={cn(
+                  "h-6 w-6 flex items-center justify-center shrink-0 border transition-colors duration-150",
+                  isActive
+                    ? "border-stone-400 bg-stone-200"
+                    : "border-stone-300 bg-stone-50 group-hover:border-stone-400 group-hover:bg-stone-100",
+                )}
+              >
+                <item.icon className="h-3 w-3 text-stone-700" />
+              </div>
+
+              <span className="tracking-[0.04em]">{item.label}</span>
+
+              {item.label === "AI Insights" && (
+                <span className="ml-auto text-[9px] px-1.5 py-0.5 bg-stone-200 border border-stone-300 text-stone-700 tracking-widest uppercase font-semibold">
+                  AI
+                </span>
+              )}
+            </motion.div>
+          </Link>
+        );
+      })}
+    </nav>
+
+    {/* Settings Section */}
+    <div className="p-3 border-t border-stone-200 space-y-0.5">
+      <Link href="/dashboard/settings" onClick={() => setIsOpen(false)}>
+        <div
+          className={cn(
+            "flex items-center gap-3 px-3 py-2.5 rounded-md text-[12px] font-medium tracking-wide transition-all duration-150 group border",
+            pathname === "/dashboard/settings"
+              ? "text-stone-900 bg-stone-100 border-stone-300"
+              : "text-stone-700 hover:text-stone-900 hover:bg-stone-100 border-transparent",
+          )}
+        >
+          <div
+            className={cn(
+              "h-6 w-6 flex items-center justify-center shrink-0 border transition-colors duration-150",
+              pathname === "/dashboard/settings"
+                ? "border-stone-400 bg-stone-200"
+                : "border-stone-300 bg-stone-50 group-hover:border-stone-400 group-hover:bg-stone-100",
+            )}
+          >
+            <Settings className="h-3 w-3 text-stone-700" />
+          </div>
+          <span className="tracking-[0.04em]">Settings</span>
+        </div>
+      </Link>
+    </div>
+
+    <div className="h-px w-full bg-linear-to-r from-transparent via-stone-300 to-stone-200" />
+  </>
+);
+
 export function Sidebar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
-  // Reusable Navigation Content
-  const NavContent = () => (
-    <>
-      <div className="h-px w-full bg-linear-to-r from-stone-200 via-stone-300 to-transparent" />
-
-      {/* Logo */}
-      <div className="px-5 py-4 border-b border-stone-200 flex items-center justify-between">
-        <Link
-          href="/dashboard"
-          className="flex items-center gap-3 group"
-          onClick={() => setIsOpen(false)}
-        >
-          <Image src="/wallet.png" alt="logo" width={30} height={30} />
-          <div className="flex flex-col leading-none">
-            <span className="text-stone-900 text-lg font-black tracking-tight uppercase">
-              Cashlatics
-            </span>
-          </div>
-        </Link>
-        {/* Mobile Close Button */}
-        <button
-          onClick={toggleSidebar}
-          className="lg:hidden p-1 text-stone-500"
-        >
-          <X className="h-5 w-5" />
-        </button>
-      </div>
-
-      {/* Section label */}
-      <div className="px-5 pt-5 pb-2">
-        <span className="text-[9px] font-semibold tracking-[0.25em] uppercase text-stone-600">
-          Navigation
-        </span>
-      </div>
-
-      {/* Navigation */}
-      <nav className="flex-1 px-3 space-y-px overflow-y-auto pb-2">
-        {navItems.map((item, i) => {
-          const isActive = pathname === item.href;
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setIsOpen(false)}
-            >
-              <motion.div
-                initial={{ opacity: 0, x: -6 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.04, duration: 0.2 }}
-                className={cn(
-                  "relative flex items-center gap-3 px-3 py-2.5 text-[12px] font-medium tracking-wide transition-all duration-150 group rounded-md",
-                  isActive
-                    ? "text-stone-900 bg-stone-100 border border-stone-300"
-                    : "text-stone-700 hover:text-stone-900 hover:bg-stone-100 border border-transparent",
-                )}
-              >
-                {isActive && (
-                  <motion.div
-                    layoutId="activeBar"
-                    className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-4 bg-stone-700"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  />
-                )}
-
-                <div
-                  className={cn(
-                    "h-6 w-6 flex items-center justify-center shrink-0 border transition-colors duration-150",
-                    isActive
-                      ? "border-stone-400 bg-stone-200"
-                      : "border-stone-300 bg-stone-50 group-hover:border-stone-400 group-hover:bg-stone-100",
-                  )}
-                >
-                  <item.icon className="h-3 w-3 text-stone-700" />
-                </div>
-
-                <span className="tracking-[0.04em]">{item.label}</span>
-
-                {item.label === "AI Insights" && (
-                  <span className="ml-auto text-[9px] px-1.5 py-0.5 bg-stone-200 border border-stone-300 text-stone-700 tracking-widest uppercase font-semibold">
-                    AI
-                  </span>
-                )}
-              </motion.div>
-            </Link>
-          );
-        })}
-      </nav>
-
-      {/* Divider */}
-      <div className="px-5 flex items-center gap-2 py-2">
-        <div className="flex-1 h-px bg-stone-200" />
-        <div className="h-1 w-1 bg-stone-300 rotate-45" />
-        <div className="flex-1 h-px bg-stone-200" />
-      </div>
-
-      <div className="h-px w-full bg-linear-to-r from-transparent via-stone-300 to-stone-200" />
-    </>
-  );
-
   return (
     <>
-      {/* MOBILE TRIGGER: Only visible on small screens */}
+      {/* MOBILE TRIGGER */}
       <div className="lg:hidden fixed top-4 left-4 z-50">
         <button
           onClick={toggleSidebar}
@@ -167,15 +193,23 @@ export function Sidebar() {
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="fixed left-0 top-0 h-full w-64 bg-stone-50 flex flex-col z-50 border-r border-stone-200 lg:hidden shadow-xl"
             >
-              <NavContent />
+              <NavContent
+                pathname={pathname}
+                setIsOpen={setIsOpen}
+                toggleSidebar={toggleSidebar}
+              />
             </motion.aside>
           </>
         )}
       </AnimatePresence>
 
-      {/* DESKTOP SIDEBAR: Hidden on small screens */}
+      {/* DESKTOP SIDEBAR */}
       <aside className="hidden lg:flex fixed left-0 top-0 h-full w-56 bg-stone-50 flex-col z-40 border-r border-stone-200">
-        <NavContent />
+        <NavContent
+          pathname={pathname}
+          setIsOpen={setIsOpen}
+          toggleSidebar={toggleSidebar}
+        />
       </aside>
     </>
   );
