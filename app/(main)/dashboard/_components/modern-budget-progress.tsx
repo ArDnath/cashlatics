@@ -134,7 +134,7 @@ export function ModernBudgetProgress({
               variant="ghost"
               size="icon"
               onClick={() => setIsEditing(true)}
-              disabled={sessionLoading}
+              disabled={isUpdating}
               className="h-9 w-9 text-slate-400 hover:text-blue-500"
             >
               <Pencil className="h-4 w-4" />

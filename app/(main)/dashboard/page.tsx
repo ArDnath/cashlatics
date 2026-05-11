@@ -29,7 +29,6 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      {/* Budget Progress */}
       <ModernBudgetProgress
         initialBudget={budgetData?.budget}
         currentExpenses={budgetData?.currentExpenses || 0}
