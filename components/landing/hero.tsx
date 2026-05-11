@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 const stats = [
@@ -12,7 +13,9 @@ const stats = [
 ];
 
 const HeroSection = () => {
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
+  const [startLoading, setStartLoading] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -63,16 +66,44 @@ const HeroSection = () => {
             </p>
 
             <div className="flex items-center gap-8 mb-16">
-              <Link
-                href="/dashboard"
-                className="relative bg-stone-900 border- text-white px-1 py-1 text-[11px] tracking-widest rounded-md uppercase hover:bg-stone-800  flex items-center gap-3 shadow-[-10px_6.5px_0px_0_rgba(0,0,0,0.3)] hover:shadow-[0_0_0_0_rgba(0,0,0,0)] transition-shadow "
+              <button
+                onClick={async (e) => {
+                  e.preventDefault();
+                  try {
+                    setStartLoading(true);
+                    // Call session check endpoint (no-cache) to ensure we read current session state.
+                    const res = await fetch("/api/auth/get-session", {
+                      method: "GET",
+                      cache: "no-store",
+                    });
+                    if (res.ok) {
+                      const json = await res.json();
+                      // The endpoint returns session info when logged in; adapt to your API response shape.
+                      if (json?.session) {
+                        // navigate to dashboard when session exists
+                        router.push("/dashboard");
+                      } else {
+                        // if no session, send users to login/signup flow
+                        router.push("/login");
+                      }
+                    } else {
+                      router.push("/login");
+                    }
+                  } catch (err) {
+                    router.push("/login");
+                  } finally {
+                    setStartLoading(false);
+                  }
+                }}
+                className="relative bg-stone-900 text-white px-1 py-1 text-[11px] tracking-widest rounded-md uppercase hover:bg-stone-800 flex items-center gap-3 transition-shadow"
+                aria-label="Start Now"
               >
-                <div className="flex gap-2 border-stone-200 border-2 px-4 py-3 text-xl">
-                  {" "}
-                  Start Now
+                <div className="flex gap-2 border-stone-200 border-2 px-4 py-3 text-xl items-center">
+                  {startLoading ? "Checking…" : "Start Now"}
                   <ArrowUpRight size={16} />
                 </div>
-              </Link>
+              </button>
+
               <button className="text-[11px] tracking-widest uppercase border-b border-black pb-1 flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity">
                 Live Demo <ArrowRight size={14} />
               </button>

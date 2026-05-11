@@ -7,6 +7,8 @@ import {
   uuid,
   pgEnum,
   index,
+  integer,
+  jsonb,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { user } from "./auth-schema";
@@ -49,7 +51,6 @@ export const accounts = pgTable(
   }),
 );
 
-// --- Transactions Table ---
 export const transactions = pgTable(
   "transactions",
   {
@@ -80,7 +81,6 @@ export const transactions = pgTable(
   }),
 );
 
-// --- Budgets Table ---
 export const budgets = pgTable(
   "budgets",
   {
@@ -99,7 +99,51 @@ export const budgets = pgTable(
   }),
 );
 
-// --- Relations ---
+export const goals = pgTable(
+  "goals",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    title: text("title").notNull(),
+    targetAmount: decimal("target_amount", {
+      precision: 12,
+      scale: 2,
+    }).notNull(),
+    currentAmount: decimal("current_amount", { precision: 12, scale: 2 })
+      .default("0")
+      .notNull(),
+    targetDate: timestamp("target_date"),
+    completed: boolean("completed").default(false).notNull(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => ({
+    userIdIdx: index("goals_user_id_idx").on(table.userId),
+  }),
+);
+
+export const aiInsights = pgTable(
+  "ai_insights",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    type: text("type").notNull(),
+    prompt: text("prompt"),
+    response: text("response"),
+    model: text("model"),
+    tokensUsed: integer("tokens_used").default(0),
+    metadata: jsonb("metadata"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => ({
+    userIdIdx: index("ai_insights_user_id_idx").on(table.userId),
+  }),
+);
+
 export const accountsRelations = relations(accounts, ({ one, many }) => ({
   user: one(user, { fields: [accounts.userId], references: [user.id] }),
   transactions: many(transactions),
@@ -115,4 +159,12 @@ export const transactionsRelations = relations(transactions, ({ one }) => ({
 
 export const budgetsRelations = relations(budgets, ({ one }) => ({
   user: one(user, { fields: [budgets.userId], references: [user.id] }),
+}));
+
+export const goalsRelations = relations(goals, ({ one }) => ({
+  user: one(user, { fields: [goals.userId], references: [user.id] }),
+}));
+
+export const aiInsightsRelations = relations(aiInsights, ({ one }) => ({
+  user: one(user, { fields: [aiInsights.userId], references: [user.id] }),
 }));

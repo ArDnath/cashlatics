@@ -27,7 +27,6 @@ async function seed() {
       email: "test@example.com",
       emailVerified: true,
       image: "https://i.pravatar.cc/150?img=68",
-      // clerkUserId is removed because it's not in your schema
     });
     console.log("👤 Created test user.");
 

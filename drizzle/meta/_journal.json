@@ -22,6 +22,13 @@
       "when": 1778409590497,
       "tag": "0002_premium_vulture",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1778531456769,
+      "tag": "0003_sturdy_freak",
+      "breakpoints": true
     }
   ]
 }
