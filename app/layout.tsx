@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins, Inter, Geologica } from "next/font/google";
 import "@/app/globals.css";
 import { Toaster } from "sonner";
+import Head from "next/head";
 
 const geologica = Geologica({
   subsets: ["latin"],
