@@ -57,12 +57,12 @@ function Navbar() {
           href="#"
           className="flex items-center gap-2 hover:opacity-80 transition-opacity scroll-smooth"
         >
-          <div className="w-20 h-20 flex items-center justify-center transform hover:rotate-0">
+          <div className="w-16 h-16 flex items-center justify-center transform hover:rotate-0">
             <Image
               src="/wallet.png"
               alt="Cashlatics Logo"
-              width={75}
-              height={75}
+              width={30}
+              height={30}
             />
           </div>
           <span className="font-sans font-bold text-2xl tracking-tight text-stone-900 dark:text-stone-50 hidden sm:inline">
