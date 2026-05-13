@@ -51,18 +51,18 @@ function Navbar() {
 
   return (
     <>
-      <div className="h-16 flex justify-between items-center px-8 border-b-2 border-stone-600 bg-stone-50/60 backdrop-blur-md sticky top-0 z-50 transition-all">
+      <div className="h-18 flex justify-between items-center px-8 border-b-2 border-stone-600 bg-stone-50/60 backdrop-blur-md sticky top-0 z-50 transition-all">
         {/* Logo - Links to top */}
         <a
           href="#"
           className="flex items-center gap-2 hover:opacity-80 transition-opacity scroll-smooth"
         >
-          <div className="w-10 h-10 flex items-center justify-center transform hover:rotate-0">
+          <div className="w-20 h-20 flex items-center justify-center transform hover:rotate-0">
             <Image
               src="/wallet.png"
               alt="Cashlatics Logo"
-              width={38}
-              height={38}
+              width={75}
+              height={75}
             />
           </div>
           <span className="font-sans font-bold text-2xl tracking-tight text-stone-900 dark:text-stone-50 hidden sm:inline">
